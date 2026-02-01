@@ -59,7 +59,7 @@ app.get('/api/db-test', async (req: Request, res: Response) => {
 });
 
 // Socket.io Events
-io.on('connection', (socket) => {
+io.on('connection', (socket: any) => {
   console.log(`[Socket] Client connected: ${socket.id}`);
 
   socket.on('disconnect', () => {
@@ -67,7 +67,7 @@ io.on('connection', (socket) => {
   });
 
   // Test event
-  socket.on('ping', (callback) => {
+  socket.on('ping', (callback: any) => {
     console.log(`[Socket] Ping from ${socket.id}`);
     callback('pong');
   });
