@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import io, { type Socket } from 'socket.io-client';
+import io from 'socket.io-client';
+import type { Socket } from 'socket.io-client';
 import './App.css';
 
 interface Game {
@@ -11,7 +12,7 @@ interface Game {
 }
 
 function App() {
-  const [socket, setSocket] = useState<Socket | null>(null);
+  const [socket, setSocket] = useState<any>(null);
   const [connected, setConnected] = useState(false);
   const [games] = useState<Game[]>([
     { id: 'imposter', name: 'Imposter', players: 4, icon: '◆', color: '#FF6B35' },
