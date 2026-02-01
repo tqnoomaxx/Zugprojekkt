@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "src/server/index.ts",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "src/client/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "src/client/build"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "src/server/index.ts"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "src/client/build/$1"
+    }
+  ],
+  "env": {
+    "SUPABASE_URL": "@supabase_url",
+    "SUPABASE_ANON_KEY": "@supabase_anon_key",
+    "SUPABASE_SERVICE_ROLE_KEY": "@supabase_service_role_key",
+    "NODE_ENV": "production",
+    "JWT_SECRET": "@jwt_secret"
+  }
+}
