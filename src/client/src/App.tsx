@@ -12,6 +12,7 @@ interface Game {
 
 function App() {
   const [socket, setSocket] = useState<Socket | null>(null);
+  const [connected, setConnected] = useState(false);
   const [games] = useState<Game[]>([
     { id: 'imposter', name: 'Imposter', players: 4, icon: '◆', color: '#FF6B35' },
     { id: 'quiz', name: 'Pub Quiz', players: 6, icon: '❓', color: '#FF6B35' },
@@ -21,7 +22,32 @@ function App() {
   ]);
 
   useEffect(() => {
-    const newSocket = io('http://localhost:3001');
+    const newSocket = io(
+      process.env.NODE_ENV === 'production'
+        ? window.location.origin
+        : 'http://localhost:3001',
+      {
+        reconnection: true,
+        reconnectionDelay: 1000,
+        reconnectionDelayMax: 5000,
+        reconnectionAttempts: 5,
+      }
+    );
+
+    newSocket.on('connect', () => {
+      console.log('✓ Connected to server');
+      setConnected(true);
+    });
+
+    newSocket.on('disconnect', () => {
+      console.log('✗ Disconnected from server');
+      setConnected(false);
+    });
+
+    newSocket.on('error', (error: any) => {
+      console.error('Socket error:', error);
+    });
+
     setSocket(newSocket);
 
     return () => {
@@ -39,6 +65,10 @@ function App() {
             <a href="#" className="nav-item">◈ Glücksrad</a>
             <a href="#" className="nav-item">▼ Plinko</a>
           </nav>
+          <div className="connection-status">
+            <span className={`status-dot ${connected ? 'connected' : 'disconnected'}`}></span>
+            <span className="status-text">{connected ? 'Connected' : 'Disconnected'}</span>
+          </div>
         </div>
       </header>
 

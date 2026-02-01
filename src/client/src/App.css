@@ -63,6 +63,47 @@ body {
   padding: 0.5rem 1rem;
 }
 
+/* Connection Status */
+.connection-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  margin-left: auto;
+  padding-left: 2rem;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+.status-dot.connected {
+  background: #00ff00;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
+}
+
+.status-dot.disconnected {
+  background: #ff0000;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+}
+
+.status-text {
+  color: #ffffff;
+  font-size: 0.8rem;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
 /* Main Content */
 .main {
   flex: 1;
